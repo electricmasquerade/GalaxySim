@@ -45,8 +45,23 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui-sfml)
 
-
-add_executable(GalaxySim main.cpp)
+include_directories("src/utils"
+        "src/sim"
+        "include"
+        ${SFML_INCLUDE_DIRS}
+        ${imgui_SOURCE_DIR}
+        ${imgui-SFML_SOURCE_DIR}/include
+)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_executable(GalaxySim main.cpp
+        src/sim/Star.cpp
+        src/sim/Star.h
+        src/utils/Vec3.cpp
+        src/utils/Vec3.h
+        src/sim/Galaxy.cpp
+        src/sim/Galaxy.h
+        src/render/RenderLayer.cpp
+        src/render/RenderLayer.h)
 
 
 target_link_libraries(GalaxySim PRIVATE
