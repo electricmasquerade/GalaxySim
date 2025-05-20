@@ -47,6 +47,7 @@ FetchContent_MakeAvailable(imgui-sfml)
 
 include_directories("src/utils"
         "src/sim"
+        "src/render"
         "include"
         ${SFML_INCLUDE_DIRS}
         ${imgui_SOURCE_DIR}
@@ -61,7 +62,9 @@ add_executable(GalaxySim main.cpp
         src/sim/Galaxy.cpp
         src/sim/Galaxy.h
         src/render/RenderLayer.cpp
-        src/render/RenderLayer.h)
+        src/render/RenderLayer.h
+        src/sim/Simulation.cpp
+        src/sim/Simulation.h)
 
 
 target_link_libraries(GalaxySim PRIVATE

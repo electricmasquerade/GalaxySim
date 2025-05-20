@@ -2,9 +2,9 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <SFML/Window/Event.hpp>
-#include <SFML/System/Clock.hpp>
-#include <cassert>
-#include <iostream>
+#include "RenderLayer.h"
+#include "Galaxy.h"
+#include "Simulation.h"
 
 
 int main() {
@@ -13,8 +13,21 @@ int main() {
     constexpr unsigned windowHeight = windowWidth * 0.8;
     sf::RenderWindow window(sf::VideoMode({windowWidth, windowHeight}), "Maze Algorithms");
     window.setFramerateLimit(120);
+    // ReSharper disable once CppNoDiscardExpression
     ImGui::SFML::Init(window);
     sf::Clock deltaClock;
+
+    //render layer stuff here
+    int numStars = 3000;
+
+
+    Galaxy galaxy(numStars);
+    Simulation simulation(galaxy);
+
+    galaxy.initStars();
+
+    RenderLayer render(window, galaxy);
+
 
 
     while (window.isOpen()) {
@@ -34,13 +47,18 @@ int main() {
         sf::Time deltaTime = deltaClock.restart();
         ImGui::SFML::Update(window, deltaTime);
 
-        //handle  render stuff, split to a side window
-        window.clear(sf::Color::White);
+        //handle render stuff, split to a side window
+        window.clear(sf::Color::Black);
 
         sf::View galaxyView = window.getDefaultView();
         galaxyView.setViewport(sf::FloatRect{{0.2f, 0.0f}, {0.8f, 1.0f}});
         window.setView(galaxyView);
-        // Put render code here
+        // Put render and sim code here
+
+        simulation.updateForces(deltaTime.asSeconds());
+        simulation.updateEuler(deltaTime.asSeconds());
+        render.buildStars();
+        render.renderStars();
 
 
         //split controls back to the left of screen
@@ -51,8 +69,12 @@ int main() {
         ImGui::Begin("Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
         ImGui::Text("Controls");
         if (ImGui::Button("Test")) {
+            //generate some test stars
+            galaxy.initStars();
+            render.buildStars();
+            //render.renderStars();
         }
-        ImVec2 settingsPos = ImGui::GetWindowSize();
+        const ImVec2 settingsPos = ImGui::GetWindowSize();
 
 
         ImGui::End();

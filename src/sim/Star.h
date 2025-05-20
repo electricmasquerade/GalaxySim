@@ -20,14 +20,14 @@ public:
     ~Star() = default;
 
     //update/step functions
-    void updateEuler(float deltaT);
+    //void updateEuler(float deltaT);
 
     //getters
     [[nodiscard]] const Position3 &getPosition() const { return m_position; }
     [[nodiscard]] const Vec3 &getVelocity() const { return m_velocity; }
     [[nodiscard]] float getMass() const { return m_mass; }
     [[nodiscard]] Vec3 getAcceleration() const { return m_acceleration; }
-    [[nodiscard]] Vec3 getForce() const { return m_acceleration * m_mass; }
+    [[nodiscard]] Vec3 getForce() const { return m_force; }
 
 
     //setters
