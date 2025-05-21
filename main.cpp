@@ -18,10 +18,10 @@ int main() {
     sf::Clock deltaClock;
 
     //render layer stuff here
-    int numStars = 3000;
+    int numStars = 2000;
 
 
-    Galaxy galaxy(numStars);
+    Galaxy galaxy(numStars, windowWidth);
     Simulation simulation(galaxy);
 
     galaxy.initStars();
@@ -55,7 +55,7 @@ int main() {
         window.setView(galaxyView);
         // Put render and sim code here
 
-        simulation.updateForces(deltaTime.asSeconds());
+        simulation.updateForces();
         simulation.updateEuler(deltaTime.asSeconds());
         render.buildStars();
         render.renderStars();

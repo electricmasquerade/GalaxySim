@@ -12,6 +12,7 @@ void RenderLayer::buildStars() {
         // Create a point for the star
         sf::Vertex starVertex;
         starVertex.position = {star.getPosition().x(), star.getPosition().y()};
+        starVertex.position *= m_galaxy.getLengthScale(); // Scale position to the window size
         starVertex.color = sf::Color::White; // Set color for the star
         m_stars[i] = starVertex;
     }

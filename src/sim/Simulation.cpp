@@ -7,15 +7,15 @@ void Simulation::updateEuler(const float deltaT) const {
         auto &star = m_galaxy.getStar(i);
         //perform euler integration
         star.setAcceleration(star.getForce() / star.getMass());
-        star.setVelocity(star.getVelocity() + star.getAcceleration() * deltaT);
-        star.setPosition(star.getPosition() + star.getVelocity() * deltaT);
+        star.setVelocity(star.getVelocity() + star.getAcceleration() * m_timeStep);
+        star.setPosition(star.getPosition() + star.getVelocity() * m_timeStep);
         //reset force for next iteration
         star.setForce({0, 0, 0});
-        std::cout << star.getAcceleration() << std::endl;
+        //std::cout << star.getVelocity() << std::endl;
     }
 }
 
-void Simulation::updateForces(const float deltaT) const {
+void Simulation::updateForces() const {
     //update forces acting on the stars
     for (int i = 0; i < m_galaxy.getNumStars(); i++) {
         auto &star = m_galaxy.getStar(i);
